@@ -47,15 +47,15 @@ Requires macOS 14 or later. Universal binary (Apple silicon and Intel).
 ## Build
 
 ```bash
-./scripts/build-app.sh          # produces "build/Redmi Buds.app"
-open "build/Redmi Buds.app"
+./scripts/build-app.sh          # produces "build.noindex/Redmi Buds.app" (not indexed by Spotlight)
+open "build.noindex/Redmi Buds.app"
 swift test                      # protocol tests (BudsKit)
 ```
 
 Command-line mode (for debugging and the Shortcuts app):
 
 ```bash
-open -n -W -o /dev/stdout "build/Redmi Buds.app" --args --cli status -v
+open -n -W -o /dev/stdout "build.noindex/Redmi Buds.app" --args --cli status -v
 # commands: status | anc | transparency | off | anc-light | anc-balanced | anc-deep | anc-adaptive
 #           find | stop-find | eq <standard|voice|bass|treble|custom>
 #           raw <opcode> <bytes…>   (hex; sends one raw request, for exploring new models)
@@ -64,7 +64,7 @@ open -n -W -o /dev/stdout "build/Redmi Buds.app" --args --cli status -v
 UI self-check: opens the popover, expands and collapses "More settings", reopens it, and saves a PNG and the window size for each step (no screen-recording permission needed):
 
 ```bash
-open -n -o /dev/stdout "build/Redmi Buds.app" --args --ui-snapshot /tmp/redmibuds-snapshots
+open -n -o /dev/stdout "build.noindex/Redmi Buds.app" --args --ui-snapshot /tmp/redmibuds-snapshots
 # README screenshots: add --appearance light|dark -AppleLanguages "(en)"
 # and copy 1-opened.png / 2-expanded.png to docs/screenshots/
 ```

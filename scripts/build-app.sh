@@ -1,5 +1,7 @@
 #!/bin/zsh
-# Builds build/Redmi Buds.app (release, universal, ad-hoc signed).
+# Builds build.noindex/Redmi Buds.app (release, universal, ad-hoc signed).
+# The ".noindex" suffix keeps Spotlight from listing this development copy next to
+# the one installed in /Applications.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -9,7 +11,7 @@ cd "$(dirname "$0")/.."
 ARCHS=(--arch arm64 --arch x86_64)
 swift build -c release --product RedmiBuds "${ARCHS[@]}"
 BIN="$(swift build -c release --show-bin-path "${ARCHS[@]}")/RedmiBuds"
-APP="build/Redmi Buds.app"
+APP="build.noindex/Redmi Buds.app"
 
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
