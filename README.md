@@ -20,9 +20,12 @@ The menu follows the macOS language (English, Spanish, French and Brazilian Port
 
 | Earbuds | Firmware | Mac | macOS |
 | --- | --- | --- | --- |
+| Redmi Buds 5 Pro | 4.3.7.7 | MacBook Pro (MacBookPro18,1, Apple silicon) | 27.0.1 |
 | Redmi Buds 6 Pro | 1.3.7.3 | MacBook Pro (MacBookPro18,1, Apple silicon) | 27.0.1 |
 
-Other Redmi Buds that Gadgetbridge drives with the same protocol (3 Pro, 4 Active, 5 Pro, 6, 6 Active, 6 Lite, 8 Active) will probably connect, since the app matches any paired device named "Redmi Buds…", but they are untested and their features differ.
+Other Redmi Buds that Gadgetbridge drives with the same protocol (3 Pro, 4 Active, 6, 6 Active, 6 Lite, 8 Active) will probably connect, since the app matches any paired device named "Redmi Buds…", but they are untested and their features differ.
+
+With several Redmi Buds paired, the app controls the pair that is connected. If two pairs are connected at once it stays with the one it opened first, and switches to the other when that one disconnects.
 
 ## Install
 
@@ -92,11 +95,11 @@ Control goes over an RFCOMM channel with service UUID `0xFD2D` (on the 6 Pro, th
 
 ## Status
 
-On the Redmi Buds 6 Pro (see [Tested with](#tested-with)), authentication, battery, in-ear detection and mode switching (noise cancelling, transparency, off, strength, adaptive) work.
+On both tested models (see [Tested with](#tested-with)), authentication, battery, in-ear detection and mode switching (noise cancelling, transparency, off, strength, adaptive) work. The two models use the same protocol; the only difference seen so far is the frame type of the events they send (`C7` on the 5 Pro, `87` on the 6 Pro), and both are handled. Unit tests replay frames captured from each model.
 
 - The earbuds accept only **one** control connection. If a phone is connected with the Xiaomi Earbuds app open, the channel is rejected (`bluetoothd` error 913).
 - With both earbuds in the ear, the case battery came back as "unavailable" (`0xFF`). It is probably only reported while an earbud is in the case (not verified).
-- The 6 Pro sometimes reports ANC strengths outside the 5 Pro table (e.g. `0x07`, `0x0B`), probably from its 20-level scale. They are ignored for now.
+- The 6 Pro sometimes reports ANC strengths outside the 5 Pro table (e.g. `0x07`, `0x0B`), probably from its 20-level scale. They are ignored for now. The 5 Pro reports only the three known levels (light, balanced, deep).
 - Not yet tested on the device: case battery, equalizer, the toggles under "More settings" and "play sound to find".
 
 ## License

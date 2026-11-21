@@ -80,6 +80,9 @@ public final class BudsController {
 
     public func connect() {
         retryTask?.cancel()
+        // Already talking to a pair: keep it. With several Redmi Buds paired, switching
+        // `device` here would leave the open channel's disconnect unobserved.
+        guard channel == nil else { return }
         guard let device = findDevice() else {
             update(.notPaired)
             log("No paired device matching \"\(namePattern)\"")
@@ -96,7 +99,6 @@ public final class BudsController {
             log("\(device.name ?? "Device") is paired but not connected")
             return
         }
-        guard channel == nil else { return }
         update(.connecting)
         openChannel()
     }
@@ -195,6 +197,9 @@ public final class BudsController {
         log("\(device.name ?? "Device") disconnected")
         teardown()
         update(.disconnected)
+        // Another paired Redmi Buds may still be connected (its connect notification was
+        // ignored while this pair held the channel), so look again.
+        scheduleRetry()
     }
 
     private func scheduleRetry() {
