@@ -1,0 +1,62 @@
+/* French. Keys must match en.lproj/Localizable.strings. */
+
+/* Connection status */
+"connection.searching" = "Recherche…";
+"connection.notPaired" = "Non jumelés";
+"connection.disconnected" = "Déconnectés";
+"connection.connecting" = "Connexion…";
+"connection.authenticating" = "Authentification…";
+"connection.ready" = "Connectés";
+"connection.failed" = "Erreur";
+
+/* Messages shown instead of the controls */
+"message.notPaired" = "Jumelez les écouteurs dans Réglages Système › Bluetooth.";
+"message.disconnected" = "Les écouteurs sont jumelés mais pas connectés. Sortez-les du boîtier ou connectez-les dans les réglages Bluetooth.";
+"action.retry" = "Réessayer";
+
+/* Errors (%d is an IOKit return code) */
+"error.sdpQueryFailed" = "Impossible d’interroger les services des écouteurs (%d).";
+"error.serviceNotFound" = "Les écouteurs ne proposent pas le service de contrôle.";
+"error.channelOpenFailed" = "Impossible d’ouvrir le canal de contrôle (%d).";
+"error.channelRejected" = "Les écouteurs ont refusé la connexion. Fermez l’app Xiaomi Earbuds sur votre téléphone (ou déconnectez le téléphone) puis réessayez.";
+"error.authenticationTimedOut" = "Les écouteurs n’ont pas terminé l’authentification.";
+
+/* Battery */
+"battery.left" = "Gauche";
+"battery.right" = "Droit";
+"battery.case" = "Boîtier";
+"battery.inEar" = "Dans l’oreille";
+
+/* Noise control */
+"noise.title" = "Contrôle du bruit";
+"noise.mode.noiseCancelling" = "Réduction";
+"noise.mode.transparency" = "Transparence";
+"noise.mode.off" = "Désactivé";
+"noise.ancLevel" = "Intensité";
+"noise.ancLevel.light" = "Légère";
+"noise.ancLevel.balanced" = "Équilibrée";
+"noise.ancLevel.deep" = "Profonde";
+"noise.ancLevel.adaptive" = "Adaptative";
+"noise.transparencyLevel" = "Mode";
+"noise.transparencyLevel.regular" = "Normal";
+"noise.transparencyLevel.voice" = "Voix";
+"noise.transparencyLevel.ambient" = "Ambiance";
+
+/* More settings */
+"settings.more" = "Plus de réglages";
+"settings.equalizer" = "Égaliseur";
+"settings.equalizer.standard" = "Standard";
+"settings.equalizer.voice" = "Voix";
+"settings.equalizer.bass" = "Graves";
+"settings.equalizer.treble" = "Aigus";
+"settings.equalizer.custom" = "Personnalisé";
+"settings.earDetection" = "Pause au retrait des écouteurs";
+"settings.adaptiveSound" = "Son adaptatif";
+"settings.dualConnection" = "Double connexion";
+"settings.autoAnswer" = "Répondre automatiquement aux appels";
+"settings.find.start" = "Émettre un son pour les retrouver";
+"settings.find.stop" = "Arrêter le son";
+
+/* Footer */
+"action.refresh" = "Actualiser";
+"action.quit" = "Quitter";
