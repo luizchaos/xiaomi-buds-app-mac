@@ -19,15 +19,19 @@ public struct BudsSession: Sendable {
 
     public private(set) var phase: Phase = .idle
     public private(set) var state = BudsState()
+    public let adaptiveStyle: AdaptiveANCStyle
     private var sequence: UInt8 = 0
 
-    /// Config ids requested after the handshake.
-    private static let initialConfig: [ConfigID] = [
-        .effectStrength, .adaptiveANC, .earDetection, .dualConnection,
-        .autoAnswer, .adaptiveSound, .equalizer,
-    ]
+    /// Config ids requested after the handshake. `.strengthLevel` models report adaptive
+    /// through the strength, and their (unused) 0x25 setting would overwrite it.
+    private var initialConfig: [ConfigID] {
+        [.effectStrength] + (adaptiveStyle == .flag ? [.adaptiveANC] : [])
+            + [.earDetection, .dualConnection, .autoAnswer, .adaptiveSound, .equalizer]
+    }
 
-    public init() {}
+    public init(adaptiveStyle: AdaptiveANCStyle = .flag) {
+        self.adaptiveStyle = adaptiveStyle
+    }
 
     private mutating func request(_ opcode: Opcode, _ payload: [UInt8]) -> Frame {
         defer { sequence &+= 1 }
@@ -45,7 +49,7 @@ public struct BudsSession: Sendable {
     public mutating func refresh() -> [Frame] {
         let all: [UInt8] = [0xFF, 0xFF, 0xFF, 0xFF]
         return [request(.getDeviceInfo, all), request(.getRunInfo, all)]
-            + Self.initialConfig.map { request(.getConfig, [0x00, $0.rawValue]) }
+            + initialConfig.map { request(.getConfig, [0x00, $0.rawValue]) }
     }
 
     public mutating func setNoiseMode(_ mode: NoiseMode) -> [Frame] {
@@ -56,16 +60,28 @@ public struct BudsSession: Sendable {
     public mutating func setANCLevel(_ level: ANCLevel) -> [Frame] {
         state.ancLevel = level
         var frames: [Frame] = []
-        if state.adaptiveANC != false {
-            state.adaptiveANC = false
+        if adaptiveStyle == .flag, state.adaptiveANC != false {
             frames += setFlag(.adaptiveANC, false)
         }
-        return frames + [request(.setConfig, [0x04, 0x00, ConfigID.effectStrength.rawValue, 0x01, level.rawValue])]
+        state.adaptiveANC = false
+        return frames + [setANCStrength(level.rawValue)]
     }
 
     public mutating func setAdaptiveANC(_ on: Bool) -> [Frame] {
-        state.adaptiveANC = on
-        return setFlag(.adaptiveANC, on)
+        switch adaptiveStyle {
+        case .flag:
+            state.adaptiveANC = on
+            return setFlag(.adaptiveANC, on)
+        case .strengthLevel:
+            // Turning adaptive off means picking a fixed strength instead.
+            guard on else { return setANCLevel(state.ancLevel ?? .balanced) }
+            state.adaptiveANC = true
+            return [setANCStrength(AdaptiveANCStyle.adaptiveStrength)]
+        }
+    }
+
+    private mutating func setANCStrength(_ value: UInt8) -> Frame {
+        request(.setConfig, [0x04, 0x00, ConfigID.effectStrength.rawValue, 0x01, value])
     }
 
     public mutating func setTransparencyLevel(_ level: TransparencyLevel) -> [Frame] {
@@ -106,6 +122,11 @@ public struct BudsSession: Sendable {
 
     public mutating func stopFind() -> [Frame] {
         [request(.setConfig, [0x04, 0x00, ConfigID.findEarbuds.rawValue, 0x00, Earbud.both.rawValue])]
+    }
+
+    /// Sends an arbitrary host request. For protocol exploration with new models (CLI `raw`).
+    public mutating func raw(_ opcode: Opcode, _ payload: [UInt8]) -> [Frame] {
+        [request(opcode, payload)]
     }
 
     private mutating func setFlag(_ id: ConfigID, _ on: Bool) -> [Frame] {
@@ -224,14 +245,25 @@ public struct BudsSession: Sendable {
         let flag = v[0] == 0x01
         switch id {
         case .effectStrength where v.count >= 2:
-            if v[0] == 0x01 { state.ancLevel = ANCLevel(rawValue: v[1]) }
+            if v[0] == 0x01 { decodeANCStrength(v[1]) }
             if v[0] == 0x02 { state.transparencyLevel = TransparencyLevel(rawValue: v[1]) }
-        case .adaptiveANC: state.adaptiveANC = flag
+        case .adaptiveANC where adaptiveStyle == .flag: state.adaptiveANC = flag
         case .adaptiveSound: state.adaptiveSound = flag
         case .dualConnection: state.dualConnection = flag
         case .autoAnswer: state.autoAnswer = flag
         case .equalizer: state.equalizer = EqualizerPreset(rawValue: v[0])
         default: break
+        }
+    }
+
+    /// On `.strengthLevel` models 0x03 means adaptive. Elsewhere unknown values (the 6 Pro
+    /// reports some outside the table) are left unmapped rather than guessed.
+    private mutating func decodeANCStrength(_ value: UInt8) {
+        if adaptiveStyle == .strengthLevel {
+            state.adaptiveANC = value == AdaptiveANCStyle.adaptiveStrength
+            if let level = ANCLevel(rawValue: value) { state.ancLevel = level }
+        } else {
+            state.ancLevel = ANCLevel(rawValue: value)
         }
     }
 
@@ -248,7 +280,7 @@ public struct BudsSession: Sendable {
             case .effectStrength where v.count >= 3:
                 let mode = NoiseMode(rawValue: v[1])
                 state.noiseMode = mode
-                if mode == .noiseCancelling { state.ancLevel = ANCLevel(rawValue: v[2]) }
+                if mode == .noiseCancelling { decodeANCStrength(v[2]) }
                 if mode == .transparency { state.transparencyLevel = TransparencyLevel(rawValue: v[2]) }
             default:
                 break

@@ -20,6 +20,7 @@ The menu follows the macOS language (English, Spanish, French, Brazilian Portugu
 
 | Earbuds | Firmware | Mac | macOS |
 | --- | --- | --- | --- |
+| Redmi Buds 4 Pro | 2.0.2.2 | MacBook Pro (MacBookPro18,1, Apple silicon) | 27.0.1 |
 | Redmi Buds 5 Pro | 4.3.7.7 | MacBook Pro (MacBookPro18,1, Apple silicon) | 27.0.1 |
 | Redmi Buds 6 Pro | 1.3.7.3 | MacBook Pro (MacBookPro18,1, Apple silicon) | 27.0.1 |
 
@@ -55,6 +56,7 @@ Command-line mode (for debugging and the Shortcuts app):
 open -n -W -o /dev/stdout "build/Redmi Buds.app" --args --cli status -v
 # commands: status | anc | transparency | off | anc-light | anc-balanced | anc-deep | anc-adaptive
 #           find | stop-find | eq <standard|voice|bass|treble|custom>
+#           raw <opcode> <bytes…>   (hex; sends one raw request, for exploring new models)
 ```
 
 UI self-check: opens the popover, expands and collapses "More settings", reopens it, and saves a PNG and the window size for each step (no screen-recording permission needed):
@@ -95,12 +97,20 @@ Control goes over an RFCOMM channel with service UUID `0xFD2D` (on the 6 Pro, th
 
 ## Status
 
-On both tested models (see [Tested with](#tested-with)), authentication, battery, in-ear detection and mode switching (noise cancelling, transparency, off, strength, adaptive) work. The two models use the same protocol; the only difference seen so far is the frame type of the events they send (`C7` on the 5 Pro, `87` on the 6 Pro), and both are handled. Unit tests replay frames captured from each model.
+On all tested models (see [Tested with](#tested-with)), authentication, battery, in-ear detection and mode switching (noise cancelling, transparency, off, strength, adaptive) work. They share one protocol, with these differences, all handled:
+
+| | 4 Pro | 5 Pro | 6 Pro |
+| --- | --- | --- | --- |
+| Event frame type | `C7` | `C7` | `87` |
+| Adaptive noise cancelling | strength `0x03` (no separate setting) | separate setting `0x25` | separate setting `0x25` |
+| Case battery with both earbuds in the ear | reported | not reported (`0xFF`) | not reported (`0xFF`) |
+
+The adaptive style is chosen from the device name (`AdaptiveANCStyle`): the 3 Pro and 4 Pro use the strength value (Gadgetbridge models the 3 Pro the same way), every other model uses the separate setting. Unit tests replay frames captured from each tested model and pin the bytes each style sends.
 
 - The earbuds accept only **one** control connection. If a phone is connected with the Xiaomi Earbuds app open, the channel is rejected (`bluetoothd` error 913).
-- With both earbuds in the ear, the case battery came back as "unavailable" (`0xFF`). It is probably only reported while an earbud is in the case (not verified).
+- The case battery depends on the model: the 4 Pro reports it at any time, the 5 Pro and 6 Pro returned "unavailable" (`0xFF`) with both earbuds in the ear, probably reporting it only while an earbud is in the case (not verified).
 - The 6 Pro sometimes reports ANC strengths outside the 5 Pro table (e.g. `0x07`, `0x0B`), probably from its 20-level scale. They are ignored for now. The 5 Pro reports only the three known levels (light, balanced, deep).
-- Not yet tested on the device: case battery, equalizer, the toggles under "More settings" and "play sound to find".
+- Not yet tested on the device: the equalizer, the toggles under "More settings" and "play sound to find".
 
 ## License
 

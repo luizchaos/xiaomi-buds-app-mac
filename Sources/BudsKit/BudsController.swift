@@ -163,6 +163,8 @@ public final class BudsController {
         }
         log("RFCOMM open (MTU \(channel.getMTU()))")
         parser = FrameParser()
+        session = BudsSession(adaptiveStyle: AdaptiveANCStyle(deviceName: device?.name))
+        log("Adaptive ANC style: \(session.adaptiveStyle)")
         update(.authenticating)
         send(session.start())
 
@@ -311,6 +313,7 @@ public final class BudsController {
     public func setAutoAnswer(_ on: Bool) { perform { $0.setAutoAnswer(on) } }
     public func startFind(_ which: Earbud = .both) { perform { $0.startFind(which) } }
     public func stopFind() { perform { $0.stopFind() } }
+    public func sendRaw(_ opcode: Opcode, _ payload: [UInt8]) { perform { $0.raw(opcode, payload) } }
 }
 
 /// NSObject target for IOBluetooth's delegate/selector callbacks, forwarding to the controller.
