@@ -83,6 +83,7 @@ struct MenuContent: View {
                     }
                 }
             }
+            .fixedSize(horizontal: false, vertical: true)
 
             // The pickers keep their titles for VoiceOver, but hide them visually: a segmented
             // picker in a 320 pt menu has no room for a leading label (it got truncated).
@@ -228,9 +229,16 @@ struct ModeButton: View {
                 Image(systemName: mode == .off ? "speaker.slash" : Optional(mode).symbol)
                     .font(.title3)
                     .frame(height: 22)
-                Text(mode.label).font(.caption).lineLimit(1).minimumScaleFactor(0.8)
+                // Long single words (German "Geräuschunterdrückung") wrap at the soft hyphen
+                // in the string instead of being truncated.
+                Text(mode.label)
+                    .font(.caption)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.8)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding(.vertical, 8)
             .background(selected ? Color.accentColor.opacity(0.2) : Color.secondary.opacity(0.08),
                         in: RoundedRectangle(cornerRadius: 8))
