@@ -1,0 +1,63 @@
+/* English (base language). Every other language must define the same keys:
+   run scripts/check-localizations.sh after editing. */
+
+/* Connection status */
+"connection.searching" = "Searching…";
+"connection.notPaired" = "Not paired";
+"connection.disconnected" = "Disconnected";
+"connection.connecting" = "Connecting…";
+"connection.authenticating" = "Authenticating…";
+"connection.ready" = "Connected";
+"connection.failed" = "Error";
+
+/* Messages shown instead of the controls */
+"message.notPaired" = "Pair the earbuds in System Settings › Bluetooth.";
+"message.disconnected" = "The earbuds are paired but not connected. Take them out of the case or connect them in Bluetooth settings.";
+"action.retry" = "Try again";
+
+/* Errors (%d is an IOKit return code) */
+"error.sdpQueryFailed" = "Couldn't query the earbuds' services (%d).";
+"error.serviceNotFound" = "The earbuds don't expose the control service.";
+"error.channelOpenFailed" = "Couldn't open the control channel (%d).";
+"error.channelRejected" = "The earbuds refused the connection. Close the Xiaomi Earbuds app on your phone (or disconnect the phone) and try again.";
+"error.authenticationTimedOut" = "The earbuds didn't finish authentication.";
+
+/* Battery */
+"battery.left" = "Left";
+"battery.right" = "Right";
+"battery.case" = "Case";
+"battery.inEar" = "In ear";
+
+/* Noise control */
+"noise.title" = "Noise control";
+"noise.mode.noiseCancelling" = "Noise cancelling";
+"noise.mode.transparency" = "Transparency";
+"noise.mode.off" = "Off";
+"noise.ancLevel" = "Strength";
+"noise.ancLevel.light" = "Light";
+"noise.ancLevel.balanced" = "Balanced";
+"noise.ancLevel.deep" = "Deep";
+"noise.ancLevel.adaptive" = "Adaptive";
+"noise.transparencyLevel" = "Mode";
+"noise.transparencyLevel.regular" = "Regular";
+"noise.transparencyLevel.voice" = "Voice";
+"noise.transparencyLevel.ambient" = "Ambient";
+
+/* More settings */
+"settings.more" = "More settings";
+"settings.equalizer" = "Equalizer";
+"settings.equalizer.standard" = "Standard";
+"settings.equalizer.voice" = "Voice";
+"settings.equalizer.bass" = "Bass boost";
+"settings.equalizer.treble" = "Treble boost";
+"settings.equalizer.custom" = "Custom";
+"settings.earDetection" = "Pause when taken out of ear";
+"settings.adaptiveSound" = "Adaptive sound";
+"settings.dualConnection" = "Dual connection";
+"settings.autoAnswer" = "Answer calls automatically";
+"settings.find.start" = "Play sound to find earbuds";
+"settings.find.stop" = "Stop sound";
+
+/* Footer */
+"action.refresh" = "Refresh";
+"action.quit" = "Quit";

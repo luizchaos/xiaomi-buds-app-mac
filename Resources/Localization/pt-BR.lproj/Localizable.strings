@@ -1,0 +1,62 @@
+/* Brazilian Portuguese. Keys must match en.lproj/Localizable.strings. */
+
+/* Connection status */
+"connection.searching" = "Procurando…";
+"connection.notPaired" = "Não pareado";
+"connection.disconnected" = "Desconectado";
+"connection.connecting" = "Conectando…";
+"connection.authenticating" = "Autenticando…";
+"connection.ready" = "Conectado";
+"connection.failed" = "Erro";
+
+/* Messages shown instead of the controls */
+"message.notPaired" = "Pareie o fone em Ajustes do Sistema › Bluetooth.";
+"message.disconnected" = "O fone está pareado, mas não conectado. Tire-o do estojo ou conecte nos ajustes de Bluetooth.";
+"action.retry" = "Tentar de novo";
+
+/* Errors (%d is an IOKit return code) */
+"error.sdpQueryFailed" = "Não foi possível consultar os serviços do fone (%d).";
+"error.serviceNotFound" = "O fone não oferece o serviço de controle.";
+"error.channelOpenFailed" = "Não foi possível abrir o canal de controle (%d).";
+"error.channelRejected" = "O fone recusou a conexão. Feche o app Xiaomi Earbuds no celular (ou desconecte o celular) e tente de novo.";
+"error.authenticationTimedOut" = "O fone não concluiu a autenticação.";
+
+/* Battery */
+"battery.left" = "Esquerdo";
+"battery.right" = "Direito";
+"battery.case" = "Estojo";
+"battery.inEar" = "No ouvido";
+
+/* Noise control */
+"noise.title" = "Controle de ruído";
+"noise.mode.noiseCancelling" = "Cancelamento";
+"noise.mode.transparency" = "Transparência";
+"noise.mode.off" = "Desligado";
+"noise.ancLevel" = "Intensidade";
+"noise.ancLevel.light" = "Leve";
+"noise.ancLevel.balanced" = "Equilibrado";
+"noise.ancLevel.deep" = "Profundo";
+"noise.ancLevel.adaptive" = "Adaptativo";
+"noise.transparencyLevel" = "Modo";
+"noise.transparencyLevel.regular" = "Normal";
+"noise.transparencyLevel.voice" = "Voz";
+"noise.transparencyLevel.ambient" = "Ambiente";
+
+/* More settings */
+"settings.more" = "Mais ajustes";
+"settings.equalizer" = "Equalizador";
+"settings.equalizer.standard" = "Padrão";
+"settings.equalizer.voice" = "Voz";
+"settings.equalizer.bass" = "Graves";
+"settings.equalizer.treble" = "Agudos";
+"settings.equalizer.custom" = "Personalizado";
+"settings.earDetection" = "Pausar ao tirar do ouvido";
+"settings.adaptiveSound" = "Som adaptativo";
+"settings.dualConnection" = "Conexão dupla";
+"settings.autoAnswer" = "Atender chamadas automaticamente";
+"settings.find.start" = "Tocar som para encontrar";
+"settings.find.stop" = "Parar som";
+
+/* Footer */
+"action.refresh" = "Atualizar";
+"action.quit" = "Sair";
