@@ -1,0 +1,62 @@
+/* Japanese. Keys must match en.lproj/Localizable.strings. */
+
+/* Connection status */
+"connection.searching" = "検索中…";
+"connection.notPaired" = "未ペアリング";
+"connection.disconnected" = "未接続";
+"connection.connecting" = "接続中…";
+"connection.authenticating" = "認証中…";
+"connection.ready" = "接続済み";
+"connection.failed" = "エラー";
+
+/* Messages shown instead of the controls */
+"message.notPaired" = "「システム設定」›「Bluetooth」でイヤホンをペアリングしてください。";
+"message.disconnected" = "イヤホンはペアリング済みですが、接続されていません。ケースから取り出すか、Bluetooth 設定で接続してください。";
+"action.retry" = "再試行";
+
+/* Errors (%d is an IOKit return code) */
+"error.sdpQueryFailed" = "イヤホンのサービスを照会できませんでした（%d）。";
+"error.serviceNotFound" = "イヤホンが操作用のサービスを提供していません。";
+"error.channelOpenFailed" = "操作用のチャンネルを開けませんでした（%d）。";
+"error.channelRejected" = "イヤホンが接続を拒否しました。スマートフォンの Xiaomi Earbuds アプリを閉じてから（またはスマートフォンとの接続を解除してから）、もう一度お試しください。";
+"error.authenticationTimedOut" = "イヤホンの認証が完了しませんでした。";
+
+/* Battery */
+"battery.left" = "左";
+"battery.right" = "右";
+"battery.case" = "ケース";
+"battery.inEar" = "装着中";
+
+/* Noise control */
+"noise.title" = "ノイズコントロール";
+"noise.mode.noiseCancelling" = "ノイズ\nキャンセリング";
+"noise.mode.transparency" = "外部音取り込み";
+"noise.mode.off" = "オフ";
+"noise.ancLevel" = "強さ";
+"noise.ancLevel.light" = "弱";
+"noise.ancLevel.balanced" = "標準";
+"noise.ancLevel.deep" = "強";
+"noise.ancLevel.adaptive" = "適応型";
+"noise.transparencyLevel" = "モード";
+"noise.transparencyLevel.regular" = "標準";
+"noise.transparencyLevel.voice" = "音声";
+"noise.transparencyLevel.ambient" = "環境音";
+
+/* More settings */
+"settings.more" = "その他の設定";
+"settings.equalizer" = "イコライザ";
+"settings.equalizer.standard" = "標準";
+"settings.equalizer.voice" = "音声";
+"settings.equalizer.bass" = "低音強調";
+"settings.equalizer.treble" = "高音強調";
+"settings.equalizer.custom" = "カスタム";
+"settings.earDetection" = "外したときに一時停止";
+"settings.adaptiveSound" = "適応型サウンド";
+"settings.dualConnection" = "デュアル接続";
+"settings.autoAnswer" = "着信に自動応答";
+"settings.find.start" = "音を鳴らして探す";
+"settings.find.stop" = "音を止める";
+
+/* Footer */
+"action.refresh" = "更新";
+"action.quit" = "終了";
