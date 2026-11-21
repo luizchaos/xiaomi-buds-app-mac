@@ -91,11 +91,17 @@ enum CLI {
             return "\(b.level)%\(b.charging ? " (charging)" : "")"
         }
         func show<T>(_ value: T?) -> String { value.map { "\($0)" } ?? "?" }
+        func caseLine(_ live: Battery?, _ last: CaseBatteryReading?) -> String {
+            if let live { return bat(live) }
+            guard let last else { return "--" }
+            let age = last.date.formatted(.relative(presentation: .named, unitsStyle: .abbreviated).locale(Locale(identifier: "en_US")))
+            return "-- (last seen \(last.level)%, \(age))"
+        }
         print("""
         device:          \(c.deviceName ?? "?")  firmware \(s.firmware ?? "?")
         left:            \(bat(s.left))  in ear: \(show(s.leftInEar))
         right:           \(bat(s.right))  in ear: \(show(s.rightInEar))
-        case:            \(bat(s.caseBattery))
+        case:            \(caseLine(s.caseBattery, c.lastCaseBattery))
         mode:            \(show(s.noiseMode))
         anc level:       \(show(s.ancLevel))  adaptive: \(show(s.adaptiveANC))
         transparency:    \(show(s.transparencyLevel))

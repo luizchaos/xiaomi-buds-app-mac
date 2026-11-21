@@ -7,7 +7,7 @@ Menu bar app (SwiftUI + IOBluetooth) for the Redmi Buds 6 Pro: battery (left, ri
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/menu-dark.png">
-    <img src="docs/screenshots/menu-light.png" width="320" alt="Menu with battery for each earbud and the noise control modes">
+    <img src="docs/screenshots/menu-light.png" width="320" alt="Menu with the battery of each earbud (charging) and of the case, and the noise control modes">
   </picture>
   &nbsp;&nbsp;
   <picture>
@@ -112,7 +112,7 @@ On all tested models (see [Tested with](#tested-with)), authentication, battery,
 The adaptive style is chosen from the device name (`AdaptiveANCStyle`): the 3 Pro and 4 Pro use the strength value (Gadgetbridge models the 3 Pro the same way), every other model uses the separate setting. Unit tests replay frames captured from each tested model and pin the bytes each style sends.
 
 - The earbuds accept only **one** control connection. If a phone is connected with the Xiaomi Earbuds app open, the channel is rejected (`bluetoothd` error 913).
-- The case battery depends on the model: the 4 Pro reports it at any time, the 5 Pro and 6 Pro returned "unavailable" (`0xFF`) with both earbuds in the ear, probably reporting it only while an earbud is in the case (not verified).
+- The case battery depends on the model: the 4 Pro reports it at any time, while the 5 Pro and 6 Pro report it only while the earbuds are in the case (`0xFF` once both are in the ear). The app remembers the last case reading per pair of earbuds (saved across restarts) and, while no fresh value arrives, shows it faded with its age ("5 min ago"); any new reading replaces it.
 - The 6 Pro sometimes reports ANC strengths outside the 5 Pro table (e.g. `0x07`, `0x0B`), probably from its 20-level scale. They are ignored for now. The 5 Pro reports only the three known levels (light, balanced, deep).
 - Not yet tested on the device: the equalizer, the toggles under "More settings" and "play sound to find".
 
