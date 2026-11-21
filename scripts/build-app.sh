@@ -16,6 +16,9 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp Resources/Info.plist "$APP/Contents/Info.plist"
 cp "$BIN" "$APP/Contents/MacOS/RedmiBuds"
 
+# App icon (regenerate with scripts/make-icon.sh).
+cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
+
 # Every Resources/Localization/<lang>.lproj becomes a supported language.
 cp -R Resources/Localization/*.lproj "$APP/Contents/Resources/"
 PLIST="$APP/Contents/Info.plist"

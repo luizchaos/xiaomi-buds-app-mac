@@ -8,6 +8,10 @@
 	<string>Redmi Buds</string>
 	<key>CFBundleExecutable</key>
 	<string>RedmiBuds</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>dev.local.RedmiBuds</string>
 	<key>CFBundleName</key>
@@ -15,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.0.4</string>
+	<string>0.0.5</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>14.0</string>
 	<key>LSUIElement</key>
