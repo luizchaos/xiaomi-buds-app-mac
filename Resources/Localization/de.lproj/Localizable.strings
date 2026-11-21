@@ -1,0 +1,62 @@
+/* German. Keys must match en.lproj/Localizable.strings. */
+
+/* Connection status */
+"connection.searching" = "Suche …";
+"connection.notPaired" = "Nicht gekoppelt";
+"connection.disconnected" = "Nicht verbunden";
+"connection.connecting" = "Verbinden …";
+"connection.authenticating" = "Authentifizieren …";
+"connection.ready" = "Verbunden";
+"connection.failed" = "Fehler";
+
+/* Messages shown instead of the controls */
+"message.notPaired" = "Kopple die Kopfhörer unter Systemeinstellungen › Bluetooth.";
+"message.disconnected" = "Die Kopfhörer sind gekoppelt, aber nicht verbunden. Nimm sie aus dem Ladecase oder verbinde sie in den Bluetooth-Einstellungen.";
+"action.retry" = "Erneut versuchen";
+
+/* Errors (%d is an IOKit return code) */
+"error.sdpQueryFailed" = "Die Dienste der Kopfhörer konnten nicht abgefragt werden (%d).";
+"error.serviceNotFound" = "Die Kopfhörer bieten den Steuerungsdienst nicht an.";
+"error.channelOpenFailed" = "Der Steuerungskanal konnte nicht geöffnet werden (%d).";
+"error.channelRejected" = "Die Kopfhörer haben die Verbindung abgelehnt. Schließe die App Xiaomi Earbuds auf deinem Telefon (oder trenne das Telefon) und versuche es erneut.";
+"error.authenticationTimedOut" = "Die Kopfhörer haben die Authentifizierung nicht abgeschlossen.";
+
+/* Battery */
+"battery.left" = "Links";
+"battery.right" = "Rechts";
+"battery.case" = "Ladecase";
+"battery.inEar" = "Im Ohr";
+
+/* Noise control */
+"noise.title" = "Geräuschkontrolle";
+"noise.mode.noiseCancelling" = "Geräusch­unterdrückung";
+"noise.mode.transparency" = "Transparenz";
+"noise.mode.off" = "Aus";
+"noise.ancLevel" = "Stärke";
+"noise.ancLevel.light" = "Leicht";
+"noise.ancLevel.balanced" = "Ausgewogen";
+"noise.ancLevel.deep" = "Stark";
+"noise.ancLevel.adaptive" = "Adaptiv";
+"noise.transparencyLevel" = "Modus";
+"noise.transparencyLevel.regular" = "Normal";
+"noise.transparencyLevel.voice" = "Stimme";
+"noise.transparencyLevel.ambient" = "Umgebung";
+
+/* More settings */
+"settings.more" = "Weitere Einstellungen";
+"settings.equalizer" = "Equalizer";
+"settings.equalizer.standard" = "Standard";
+"settings.equalizer.voice" = "Stimme";
+"settings.equalizer.bass" = "Bass-Boost";
+"settings.equalizer.treble" = "Höhen-Boost";
+"settings.equalizer.custom" = "Eigene";
+"settings.earDetection" = "Pausieren beim Herausnehmen";
+"settings.adaptiveSound" = "Adaptiver Klang";
+"settings.dualConnection" = "Dual-Verbindung";
+"settings.autoAnswer" = "Anrufe automatisch annehmen";
+"settings.find.start" = "Ton zum Finden abspielen";
+"settings.find.stop" = "Ton stoppen";
+
+/* Footer */
+"action.refresh" = "Aktualisieren";
+"action.quit" = "Beenden";
