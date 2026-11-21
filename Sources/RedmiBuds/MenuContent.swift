@@ -13,7 +13,7 @@ struct MenuContent: View {
         VStack(alignment: .leading, spacing: 14) {
             header
             if controller.connection == .ready {
-                BatteryRow(state: controller.state)
+                BatteryRow(state: controller.state, lastCase: controller.lastCaseBattery)
                 Divider()
                 noiseControl
                 Divider()
@@ -170,12 +170,26 @@ struct MenuContent: View {
 
 struct BatteryRow: View {
     let state: BudsState
+    let lastCase: CaseBatteryReading?
 
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(alignment: .top, spacing: 0) {
             BatteryGauge(title: "battery.left", symbol: "earbuds", battery: state.left, inEar: state.leftInEar)
             BatteryGauge(title: "battery.right", symbol: "earbuds", battery: state.right, inEar: state.rightInEar)
-            BatteryGauge(title: "battery.case", symbol: "earbuds.case", battery: state.caseBattery, inEar: nil)
+            caseGauge
+        }
+    }
+
+    /// The case is usually only reported while an earbud is in it, so fall back to the last
+    /// reading and say how old it is.
+    @ViewBuilder private var caseGauge: some View {
+        if let live = state.caseBattery {
+            BatteryGauge(title: "battery.case", symbol: "earbuds.case", battery: live, inEar: nil)
+        } else if let lastCase {
+            BatteryGauge(title: "battery.case", symbol: "earbuds.case",
+                         battery: Battery(level: lastCase.level, charging: false), inEar: nil, lastSeen: lastCase.date)
+        } else {
+            BatteryGauge(title: "battery.case", symbol: "earbuds.case", battery: nil, inEar: nil)
         }
     }
 }
@@ -185,6 +199,8 @@ struct BatteryGauge: View {
     let symbol: String
     let battery: Battery?
     let inEar: Bool?
+    /// Set when `battery` is a remembered value rather than a live one.
+    var lastSeen: Date? = nil
 
     var body: some View {
         VStack(spacing: 4) {
@@ -196,7 +212,7 @@ struct BatteryGauge: View {
             }
             .gaugeStyle(.accessoryCircularCapacity)
             .tint(tint)
-            .opacity(battery == nil ? 0.35 : 1)
+            .opacity(battery == nil ? 0.35 : lastSeen == nil ? 1 : 0.55)
 
             Text(battery.map { "\($0.level)%" } ?? "--").font(.callout.monospacedDigit().weight(.medium))
             HStack(spacing: 3) {
@@ -207,12 +223,25 @@ struct BatteryGauge: View {
             }
             .font(.caption2)
             .foregroundStyle(.secondary)
+
+            if let lastSeen {
+                // "5 min ago", localized by the system; refreshed every minute.
+                TimelineView(.everyMinute) { _ in
+                    Text(lastSeen, format: .relative(presentation: .named, unitsStyle: .abbreviated))
+                }
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+            }
         }
         .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .combine)
     }
 
     private var tint: Color {
         guard let battery else { return .gray }
+        if lastSeen != nil { return .secondary }
         if battery.charging { return .green }
         return battery.level <= 20 ? .red : .accentColor
     }

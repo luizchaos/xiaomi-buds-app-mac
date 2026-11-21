@@ -39,6 +39,9 @@ public final class BudsController {
     public private(set) var connection: Connection = .searching
     public private(set) var state = BudsState()
     public private(set) var deviceName: String?
+    /// Last case battery seen for the current earbuds. `state.caseBattery` is only set while
+    /// the earbuds report it (usually with an earbud in the case); this keeps the last value.
+    public private(set) var lastCaseBattery: CaseBatteryReading?
     public private(set) var log: [String] = []
 
     /// Called for every log line (used by the CLI to echo to the terminal).
@@ -55,6 +58,8 @@ public final class BudsController {
     @ObservationIgnored private var device: IOBluetoothDevice?
     @ObservationIgnored private var channel: IOBluetoothRFCOMMChannel?
     @ObservationIgnored private var session = BudsSession()
+    @ObservationIgnored private let caseStore: CaseBatteryStore
+    @ObservationIgnored private var caseStoreKey: String?
     @ObservationIgnored private var parser = FrameParser()
     @ObservationIgnored private var bridge: DelegateBridge!
     @ObservationIgnored private var connectNotification: IOBluetoothUserNotification?
@@ -65,7 +70,8 @@ public final class BudsController {
 
     private let logger = Logger(subsystem: "dev.local.RedmiBuds", category: "bluetooth")
 
-    public init() {
+    public init(caseStore: CaseBatteryStore = CaseBatteryStore()) {
+        self.caseStore = caseStore
         bridge = DelegateBridge(owner: self)
     }
 
@@ -90,6 +96,10 @@ public final class BudsController {
         }
         self.device = device
         deviceName = device.name
+        if caseStoreKey != device.addressString {
+            caseStoreKey = device.addressString
+            lastCaseBattery = caseStoreKey.flatMap(caseStore.load(for:))
+        }
         disconnectNotification?.unregister()
         disconnectNotification = device.register(
             forDisconnectNotification: bridge, selector: #selector(DelegateBridge.deviceDisconnected(_:device:)))
@@ -276,8 +286,17 @@ public final class BudsController {
     private func syncState() {
         if state != session.state {
             state = session.state
+            rememberCaseBattery()
             onChange?()
         }
+    }
+
+    /// Any fresh case reading replaces the stored one.
+    private func rememberCaseBattery() {
+        guard let battery = state.caseBattery, let key = caseStoreKey else { return }
+        let reading = CaseBatteryReading(level: battery.level, date: Date())
+        lastCaseBattery = reading
+        caseStore.save(reading, for: key)
     }
 
     private func update(_ new: Connection) {
