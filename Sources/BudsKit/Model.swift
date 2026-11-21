@@ -60,6 +60,25 @@ public struct Battery: Equatable, Sendable {
     }
 }
 
+/// How a model turns adaptive noise cancelling on.
+public enum AdaptiveANCStyle: Sendable, Equatable {
+    /// A separate on/off setting (config 0x25), independent of the strength (5 Pro, 6 Pro).
+    case flag
+    /// A fourth noise-cancelling strength, 0x03 (3 Pro, 4 Pro). These models ignore 0x25.
+    case strengthLevel
+
+    /// The strength value that means "adaptive" on `.strengthLevel` models.
+    static let adaptiveStrength: UInt8 = 0x03
+
+    /// Picks the style from the advertised name. Unknown models keep `.flag`, the behavior
+    /// verified on the 5 Pro and 6 Pro.
+    public init(deviceName: String?) {
+        let name = deviceName?.lowercased() ?? ""
+        let strengthModels = ["redmi buds 3 pro", "redmi buds 4 pro"]
+        self = strengthModels.contains(where: name.contains) ? .strengthLevel : .flag
+    }
+}
+
 /// Everything we know about the earbuds. `nil` means "not reported yet".
 public struct BudsState: Equatable, Sendable {
     public var left: Battery?

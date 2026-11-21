@@ -17,13 +17,14 @@ enum Entry {
 }
 
 /// Headless mode for debugging and scripting (output is English only):
-/// `RedmiBuds --cli [status|anc|transparency|off|anc-light|anc-balanced|anc-deep|anc-adaptive|find|stop-find|eq <preset>] [-v]`
+/// `RedmiBuds --cli [status|anc|transparency|off|anc-light|anc-balanced|anc-deep|anc-adaptive|find|stop-find|eq <preset>|raw <opcode> <bytes…>] [-v]`
 @MainActor
 enum CLI {
     static func run(_ args: [String]) {
         let verbose = args.contains("-v")
         let words = args.filter { $0 != "-v" }
         let command = words.first ?? "status"
+        rawArguments = Array(words.dropFirst())
         let controller = BudsController()
         var done = false
 
@@ -60,6 +61,8 @@ enum CLI {
         exit(2)
     }
 
+    private static var rawArguments: [String] = []
+
     private static func execute(_ command: String, _ argument: String?, on c: BudsController) {
         switch command {
         case "anc": c.setNoiseMode(.noiseCancelling)
@@ -71,6 +74,10 @@ enum CLI {
         case "anc-adaptive": c.setAdaptiveANC(true)
         case "find": c.startFind()
         case "stop-find": c.stopFind()
+        case "raw":
+            // raw <opcode> <payload bytes…>, all hex, e.g. `raw F2 04 00 0B 01 03`.
+            let bytes = rawArguments.compactMap { UInt8($0, radix: 16) }
+            if let first = bytes.first, let opcode = Opcode(rawValue: first) { c.sendRaw(opcode, Array(bytes.dropFirst())) }
         case "eq":
             if let preset = EqualizerPreset.allCases.first(where: { "\($0)" == argument }) { c.setEqualizer(preset) }
         default: break
