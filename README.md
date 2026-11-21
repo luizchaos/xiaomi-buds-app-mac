@@ -24,6 +24,20 @@ The menu follows the macOS language (English and Brazilian Portuguese) and light
 
 Other Redmi Buds that Gadgetbridge drives with the same protocol (3 Pro, 4 Active, 5 Pro, 6, 6 Active, 6 Lite, 8 Active) will probably connect, since the app matches any paired device named "Redmi Buds…", but they are untested and their features differ.
 
+## Install
+
+1. Download `RedmiBuds-<version>-macOS.zip` from the [latest release](https://github.com/luizchaos/xiaomi-buds-app-mac/releases/latest), unzip it and move **Redmi Buds.app** to Applications.
+2. Open the app. macOS blocks the first launch because the app is **not notarized by Apple**: it is only ad-hoc signed, since signing and notarizing require a paid Apple Developer Program membership (Developer ID). To allow it, either:
+   - go to **System Settings › Privacy & Security** and click **Open Anyway** next to the message about Redmi Buds, then confirm; or
+   - remove the quarantine flag in Terminal:
+     ```bash
+     xattr -dr com.apple.quarantine "/Applications/Redmi Buds.app"
+     ```
+   This is needed only once. You can also build the app yourself from source (below), in which case no warning appears.
+3. Allow Bluetooth access when asked.
+
+Requires macOS 14 or later. Universal binary (Apple silicon and Intel).
+
 ## Build
 
 ```bash
