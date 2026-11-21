@@ -1,0 +1,62 @@
+/* Simplified Chinese. Keys must match en.lproj/Localizable.strings. */
+
+/* Connection status */
+"connection.searching" = "正在搜索…";
+"connection.notPaired" = "未配对";
+"connection.disconnected" = "未连接";
+"connection.connecting" = "正在连接…";
+"connection.authenticating" = "正在验证…";
+"connection.ready" = "已连接";
+"connection.failed" = "错误";
+
+/* Messages shown instead of the controls */
+"message.notPaired" = "请在“系统设置” › “蓝牙”中配对耳机。";
+"message.disconnected" = "耳机已配对但未连接。请将耳机从充电盒中取出，或在蓝牙设置中连接。";
+"action.retry" = "重试";
+
+/* Errors (%d is an IOKit return code) */
+"error.sdpQueryFailed" = "无法查询耳机的服务（%d）。";
+"error.serviceNotFound" = "耳机未提供控制服务。";
+"error.channelOpenFailed" = "无法打开控制通道（%d）。";
+"error.channelRejected" = "耳机拒绝了连接。请关闭手机上的小米耳机 App（或断开手机连接）后重试。";
+"error.authenticationTimedOut" = "耳机未完成验证。";
+
+/* Battery */
+"battery.left" = "左耳";
+"battery.right" = "右耳";
+"battery.case" = "充电盒";
+"battery.inEar" = "已佩戴";
+
+/* Noise control */
+"noise.title" = "降噪控制";
+"noise.mode.noiseCancelling" = "降噪";
+"noise.mode.transparency" = "通透";
+"noise.mode.off" = "关闭";
+"noise.ancLevel" = "降噪强度";
+"noise.ancLevel.light" = "轻度";
+"noise.ancLevel.balanced" = "均衡";
+"noise.ancLevel.deep" = "深度";
+"noise.ancLevel.adaptive" = "自适应";
+"noise.transparencyLevel" = "通透模式";
+"noise.transparencyLevel.regular" = "标准";
+"noise.transparencyLevel.voice" = "人声";
+"noise.transparencyLevel.ambient" = "环境声";
+
+/* More settings */
+"settings.more" = "更多设置";
+"settings.equalizer" = "均衡器";
+"settings.equalizer.standard" = "标准";
+"settings.equalizer.voice" = "人声";
+"settings.equalizer.bass" = "低音增强";
+"settings.equalizer.treble" = "高音增强";
+"settings.equalizer.custom" = "自定义";
+"settings.earDetection" = "摘下耳机时暂停";
+"settings.adaptiveSound" = "自适应音效";
+"settings.dualConnection" = "双设备连接";
+"settings.autoAnswer" = "自动接听来电";
+"settings.find.start" = "播放声音以查找耳机";
+"settings.find.stop" = "停止播放";
+
+/* Footer */
+"action.refresh" = "刷新";
+"action.quit" = "退出";
